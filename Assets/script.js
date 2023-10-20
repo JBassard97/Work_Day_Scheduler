@@ -3,6 +3,10 @@ $(document).ready(function () {
   for (let hour = 9; hour <= 17; hour++) {
     // grabbing each hourDiv by selecting id, and embedding raising index to complete the name
     const hourDiv = $(`#hour-${hour}`);
+    // creating data attribute for each hourDiv
+    hourDiv.attr("data", `${hour}`);
+    // getting that data attribute, making it an integer to work with, and storing it in hourData
+    hourData = parseInt(hourDiv.attr("data"));
     // grabbing each hourDiv's id
     const hourId = hourDiv.attr("id");
     // grabbing each textarea in each hourDiv
@@ -38,19 +42,67 @@ $(document).ready(function () {
       var today = dayjs().format("dddd, MMMM D YYYY, h:mm:ss A");
       timeDisplay.text(today);
     }
-    // Calling function, and updating every second
+
+    function colorizeHours() {
+      const classesToRemove = "row time-block past present future";
+      const pastClass = "past time-block row";
+      const futureClass = "future time-block row";
+      const presentClass = "present time-block row";
+
+      const currentHour = dayjs().format("HH");
+      
+      // Uncomment and change value for testing changes
+      // const currentHour = 15;
+
+      if (currentHour > hourData) {
+        hourDiv.removeClass(classesToRemove);
+        hourDiv.attr("class", pastClass);
+      }
+      if (currentHour < hourData) {
+        hourDiv.removeClass(classesToRemove);
+        hourDiv.attr("class", futureClass);
+      }
+
+      if (hourData == currentHour) {
+        hourDiv.removeClass(classesToRemove);
+        hourDiv.attr("class", presentClass);
+      }
+
+      // TODO: Just for fun, changing the background for every third of the workday
+      if (currentHour >= 9 && currentHour <= 11) {
+        $("body").css("background-image", "url('./Assets/sunrise.jpg')");
+        $("body").css("background-size", "cover");
+        $("header").css("color", "#000000");
+
+      }
+       
+      if (currentHour >= 12 && currentHour <= 14) {
+        $("body").css("background-image", "url('./Assets/daytime.jpg')");
+        $("body").css("background-size", "cover");
+        $("header").css("color", "#FFFACD");
+
+      }
+       
+      if (currentHour >= 15 && currentHour <= 17) {
+        $("body").css("background-image", "url('./Assets/sunset.jpg')");
+        $("body").css("background-size", "cover");
+        $("header").css("color", "#4B0082");
+      
+      }
+
+       if (currentHour >= 18 || currentHour <= 8) {
+        $("body").css("background-image", "url('./Assets/night.jpg')");
+        $("body").css("background-size", "cover");
+        $("header").css("color", "white");
+      }
+    }
+
+    // Calling function, and updating clock every second
     updateClock();
     setInterval(updateClock, 1000);
-
-    }
+    
+    // calling function that compares currentHour with hourData every second
+    colorizeHours();
+}
   }
 );
-
-
-// TODO: Add code to apply the past, present, or future class to each time
-// block by comparing the id to the current hour. HINTS: How can the id
-// attribute of each time-block be used to conditionally add or remove the
-// past, present, and future classes? How can Day.js be used to get the
-// current hour in 24-hour time?
-
-// TODO: ME HERE, ^^^ REFERING TO BOOTSTRAP CLASSES .PAST .PRESENT
