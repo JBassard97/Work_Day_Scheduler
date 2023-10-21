@@ -1,4 +1,3 @@
-
 $(document).ready(function () {
   for (let hour = 9; hour <= 17; hour++) {
     // grabbing each hourDiv by selecting id, and embedding raising index to complete the name
@@ -41,8 +40,11 @@ $(document).ready(function () {
       var timeDisplay = $("#currentDay");
       var today = dayjs().format("dddd, MMMM D YYYY, h:mm:ss A");
       timeDisplay.text(today);
+      // calling function here so it constantly updates when called every second
+      colorizeHours();
     }
 
+    // This function adds or removes classes to hourDiv's based on current hour
     function colorizeHours() {
       const classesToRemove = "row time-block past present future";
       const pastClass = "past time-block row";
@@ -50,14 +52,12 @@ $(document).ready(function () {
       const presentClass = "present time-block row";
 
       const currentHour = dayjs().format("HH");
-      
-      // Uncomment and change value for testing changes
-      // const currentHour = 15;
 
       if (currentHour > hourData) {
         hourDiv.removeClass(classesToRemove);
         hourDiv.attr("class", pastClass);
       }
+
       if (currentHour < hourData) {
         hourDiv.removeClass(classesToRemove);
         hourDiv.attr("class", futureClass);
@@ -68,41 +68,32 @@ $(document).ready(function () {
         hourDiv.attr("class", presentClass);
       }
 
-      // TODO: Just for fun, changing the background for every third of the workday
+      // TODO: Just for fun, changing the background for every third of the workday, and nighttime!
       if (currentHour >= 9 && currentHour <= 11) {
         $("body").css("background-image", "url('./Assets/sunrise.jpg')");
         $("body").css("background-size", "cover");
         $("header").css("color", "#000000");
-
       }
-       
+
       if (currentHour >= 12 && currentHour <= 14) {
         $("body").css("background-image", "url('./Assets/daytime.jpg')");
         $("body").css("background-size", "cover");
         $("header").css("color", "#FFFACD");
-
       }
-       
+
       if (currentHour >= 15 && currentHour <= 17) {
         $("body").css("background-image", "url('./Assets/sunset.jpg')");
         $("body").css("background-size", "cover");
         $("header").css("color", "#4B0082");
-      
       }
 
-       if (currentHour >= 18 || currentHour <= 8) {
+      if (currentHour >= 18 || currentHour <= 8) {
         $("body").css("background-image", "url('./Assets/night.jpg')");
         $("body").css("background-size", "cover");
         $("header").css("color", "white");
       }
     }
-
     // Calling function, and updating clock every second
-    updateClock();
     setInterval(updateClock, 1000);
-    
-    // calling function that compares currentHour with hourData every second
-    colorizeHours();
-}
   }
-);
+});
