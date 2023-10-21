@@ -95,6 +95,7 @@ $(document).ready(function () {
       }
     }
     // Calling function, and updating clock every second
+    updateClock();
     setInterval(updateClock, 1000);
 
     colorizeHours();
