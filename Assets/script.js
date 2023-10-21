@@ -40,8 +40,6 @@ $(document).ready(function () {
       var timeDisplay = $("#currentDay");
       var today = dayjs().format("dddd, MMMM D YYYY, h:mm:ss A");
       timeDisplay.text(today);
-      // calling function here so it constantly updates when called every second
-      colorizeHours();
     }
 
     // This function adds or removes classes to hourDiv's based on current hour
@@ -52,6 +50,9 @@ $(document).ready(function () {
       const presentClass = "present time-block row";
 
       const currentHour = dayjs().format("HH");
+
+      // Uncomment and change value for testing changes
+      // const currentHour = 15;
 
       if (currentHour > hourData) {
         hourDiv.removeClass(classesToRemove);
@@ -68,7 +69,7 @@ $(document).ready(function () {
         hourDiv.attr("class", presentClass);
       }
 
-      // TODO: Just for fun, changing the background for every third of the workday, and nighttime!
+      // TODO: Just for fun, changing the background for every third of the workday,
       if (currentHour >= 9 && currentHour <= 11) {
         $("body").css("background-image", "url('./Assets/sunrise.jpg')");
         $("body").css("background-size", "cover");
@@ -95,5 +96,7 @@ $(document).ready(function () {
     }
     // Calling function, and updating clock every second
     setInterval(updateClock, 1000);
+
+    colorizeHours();
   }
 });
