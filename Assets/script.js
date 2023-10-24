@@ -40,6 +40,14 @@ $(document).ready(function () {
       var timeDisplay = $("#currentDay");
       var today = dayjs().format("dddd, MMMM D YYYY, h:mm:ss A");
       timeDisplay.text(today);
+      var currentMinute = dayjs().format("mm");
+
+      // reloads page every hour so themes and classes reapplied periodically
+      if (currentMinute === "00") {
+        window.location.reload();
+      }
+
+      console.log(currentMinute);
     }
 
     // This function adds or removes classes to hourDiv's based on current hour
@@ -97,7 +105,10 @@ $(document).ready(function () {
     // Calling function, and updating clock every second
     updateClock();
     setInterval(updateClock, 1000);
-
+    
     colorizeHours();
   }
+  // setInterval(function () {
+  //   window.location.reload();
+  // });
 });
